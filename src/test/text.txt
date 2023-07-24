@@ -1,0 +1,17 @@
+<script type="text/javascript" src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function Jquery_AJAX_GET() {
+    $.get('test1',{
+              userName:"王老师",
+              password:"666666"
+            },
+            //请求成功时回调函数
+            function(result,status,xhr) {
+              alert("111111");
+              alert(result.雪碧);
+
+            },
+            "json"
+    )
+  }
+</script>

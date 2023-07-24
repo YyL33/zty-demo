@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+
+">
+    <!-- 配置包扫描器 -->
+    <context:component-scan base-package="com.demo.ztydemo">
+        <!--因为Springmvc包含了Controller，SPRING框架无需再去管理Controller-->
+        <!-- 所以此处进行排除 -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+
+    <!-- 数据源 -->
+    <context:property-placeholder location="classpath:jdbc.properties" />
+
+    <!-- 注入连接池 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${driver}" />
+        <property name="jdbcUrl" value="${url}" />
+        <property name="user" value="${username}" />
+        <property name="password" value="${password}" />
+    </bean>
+
+    <!-- mybatis核心类 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 因为是mybatis所以还是要配置数据源 -->
+        <property name="dataSource" ref="dataSource" />
+        <!-- 别名的自动扫描 -->
+        <property name="typeAliasesPackage" value="com.demo.ztydemo" />
+    </bean>
+
+    <!-- 映射文件扫描器 -->
+    <!-- 映射文件扫描 -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.demo.ztydemo.mapper" />
+    </bean>
+
+</beans>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+">
+    <!--组件扫描器，扫描这个包下所有项目-->
+    <context:component-scan base-package="com.demo.ztydemo.controller" />
+    <!--视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceView">
+        <!--页面前缀 jsp页面当前处于根目录所以使用 "/" -->
+        <property name="prefix" value="/" />
+        <!--页面后缀-->
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!--默认sevlet处理器：静态资源过滤
+    该方法由tomcat管理所有静态资源 但不认识controller注解 需要由第二行标签来解决该问题-->
+    <mvc:default-servlet-handler/>
+
+    <!--注解驱动：要想使tomcat和springmvc同时生效就各管各的-->
+    <mvc:annotation-driven/>
+
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">      <!--  引入mybatis-3-config规范      -->
+<configuration>
+    <properties resource="jdbc.properties" />                <!-- 动态配置映射文件-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>     <!-- mybatis配置--><!-- 驼峰命名的自动转换-->
+    </settings>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com.demo.ztydemo.mapper/UserMapper.xml" />
+        <!--        <package name="com.demo.demo_mybatis.mapper"/>-->
+    </mappers>
+</configuration>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.ztydemo.dao.UserMapper">
+
+
+    <!-- <resultMap type="User" id="UserResultMap">
+        <result property="id"    column="id"    />
+        <result property="roleId"    column="role_id"    />
+        <result property="accountNo"    column="account_no"    />
+        <result property="sex"    column="sex"    />
+        <result property="userName"    column="user_name"    />
+        <result property="passWord"    column="password"    />
+        <result property="phone"    column="phone"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="department"    column="department"    />
+        <result property="role_name"    column="role_name"    />
+
+    </resultMap>-->
+    <!-- 关联查询sql -->
+    <select id="selectUserList" parameterType="com.demo.ztydemo.dao.vo.QueryUserVo"
+            resultType="com.demo.ztydemo.dao.entity.User" >
+        SELECT *  FROM user
+        <where>
+            <if test="id != null and id !=''">
+                AND id = #{id}
+            </if>
+            <if test="roleId != null and roleId !=''">
+                AND role_id = #{roleId}
+            </if>
+            <if test="userName != null and userName !=''">
+                AND user_name = #{userName}
+            </if>
+            <if test="accountNo != null and accountNo !=''">
+                AND account_no = #{accountNo}
+            </if>
+            <if test="password != null and password !=''">
+                AND password = #{password}
+            </if>
+            <if test="sex != null">
+                AND sex = #{sex}
+            </if>
+            <if test="phone != null and phone !=''">
+                AND phone = #{phone}
+            </if>
+            <if test="status !=null and status !=''">
+                AND status = #{status}
+            </if>
+            <if test="remark !=null and remark !=''">
+                AND remark = #{remark}
+            </if>
+            <if test="createTime !=null">
+                AND create_time = #{createTime}
+            </if>
+            <if test="updateTime!=null">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+    <!-- <select id="selectUserList" parameterType="com.demo.ztydemo.dao.entity.User"
+            resultType="UserResultMap" >
+        SELECT *
+        FROM user  u
+            left join role  r  on u.role_id = r.id
+        <where>
+            <if test="id != null">
+                AND u.id = #{id}
+            </if>
+            <if test="roleId != null">
+                AND u.role_id = #{roleId}
+            </if>
+            <if test="userName != null">
+                AND u.user_name = #{userName}
+            </if>
+            <if test="accountNo != null">
+                AND u.account_no = #{accountNo}
+            </if>
+            <if test="password != null">
+                AND u.password = #{password}
+            </if>
+            <if test="sex != null">
+                AND u.sex = #{sex}
+            </if>
+            <if test="phone != null">
+                AND u.phone = #{phone}
+            </if>
+            <if test="status !=null">
+                AND u.status = #{status}
+            </if>
+            <if test="remark !=null">
+                AND u.remark = #{remark}
+            </if>
+            <if test="createTime !=null">
+                AND u.create_time = #{createTime}
+            </if>
+            <if test="updateTime!=null">
+                AND u.update_time = #{updateTime}
+            </if>
+        </where>
+    </select> -->
+    <!--  -->
+    <select id="loginCheck" parameterType="com.demo.ztydemo.dao.entity.User"
+            resultType="com.demo.ztydemo.dao.entity.User" >
+        SELECT *
+        FROM user
+        <where>
+            AND user_name = #{userName}
+            AND password = #{password};
+        </where>
+    </select>
+
+    <select id="selectUser" parameterType="Integer"
+            resultType="com.demo.ztydemo.dao.vo.UserVo" >
+        SELECT u.id,u.account_no,u.user_name,u.sex,u.phone,u.role_id,
+               r.role_name,r.department,r.remark
+        FROM user  u
+        left join role  r  on u.role_id = r.id
+        <where>
+            <if test="id != null">
+                AND u.id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateStatus" parameterType="com.demo.ztydemo.dao.entity.User">
+        update user set status= #{status} where id =#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete from user
+               where id=#{id}
+    </delete>
+
+    <update id="updateById" parameterType="com.demo.ztydemo.dao.entity.User">
+        update user set account_no= #{accountNo},
+                        user_name= #{userName},
+                        sex= #{sex},
+                        phone= #{phone},
+                        role_id= #{roleId}
+                    where id =#{id};
+
+    </update>
+
+    <insert id="addUser" parameterType="com.demo.ztydemo.dao.entity.User">
+        INSERT INTO user
+        (`account_no`,`user_name`,`password`,`sex`,`phone`,`role_id`)
+        VALUES
+            (#{accountNo},#{userName},#{password},#{sex},#{phone},#{roleId})
+    </insert>
+
+    <!--    <update id="updateUser" parameterType="com.demo.demo_mybatis.dao.entity.User" >-->
+    <!--        update -->
+    <!--    </update>-->
+    <!--    &lt;!&ndash; 分页查询 &ndash;&gt;-->
+    <!--    <select id="listPage" resultType="com.egao.common.system.entity.DictionaryData">-->
+    <!--        <include refid="relSelect"></include>-->
+    <!--    </select>-->
+
+    <!--    &lt;!&ndash; 查询全部 &ndash;&gt;-->
+    <!--    <select id="listAll" resultType="com.egao.common.system.entity.DictionaryData">-->
+    <!--        <include refid="relSelect"></include>-->
+    <!--    </select>-->
+
+</mapper>
